@@ -3,8 +3,14 @@ services:
     name: client
     env: static
     buildCommand: npm install && npm run build
-    staticPublishPath: dist   # or "build" if CRA
+    staticPublishPath: dist
     routes:
+      # Send API requests to backend
+      - type: rewrite
+        source: /api/*
+        destination: https://veg-ecommerce.onrender.com/api/:splat
+
+      # SPA fallback
       - type: rewrite
         source: /*
         destination: /index.html
